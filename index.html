@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Turnos · Equipo</title>
-  <link rel="stylesheet" href="style.css?v=v-checklist-3" />
+  <!-- ⬇️ subimos versión para ver cambios de CSS al instante -->
+  <link rel="stylesheet" href="style.css?v=v-flat-light-swipe-2" />
 </head>
 <body>
   <div class="calendar-container">
@@ -13,7 +14,7 @@
       <div id="lastMessage" class="status-msg"></div>
     </div>
 
-    <!-- Pestañas de trabajadores -->
+    <!-- Pestañas de trabajadores (centradas y espaciadas) -->
     <div class="worker-tabs" role="tablist" aria-label="Trabajadores">
       <button class="worker-tab" data-id="trabajador1" role="tab" aria-selected="true">Trab. 1</button>
       <button class="worker-tab" data-id="trabajador2" role="tab" aria-selected="false">Trab. 2</button>
@@ -35,17 +36,17 @@
     </div>
 
     <div class="tools">
-      <button id="exportBtn" class="tool-btn">📤 Exportar</button>
+      <button id="exportBtn" class="tool-btn">Exportar</button>
       <input type="file" id="importFile" accept=".json" style="display:none">
-      <button id="importBtn" class="tool-btn">📥 Importar</button>
-      <button id="resetBtn" class="tool-btn danger">🗑️ Resetear</button>
+      <button id="importBtn" class="tool-btn">Importar</button>
+      <button id="resetBtn" class="tool-btn danger">Resetear</button>
     </div>
   </div>
 
   <!-- Modal edición -->
   <div id="turnoModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-content">
-      <h3 id="modalTitle">Editar Turno</h3>
+      <h3 id="modalTitle">Editar turno</h3>
       <p id="modalDate" class="modal-date"></p>
       <label class="select-label" for="turnoSelect">Turno</label>
       <select id="turnoSelect" class="turno-select">
@@ -64,7 +65,7 @@
   <script defer src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
   <script defer src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
-  <!-- App -->
-  <script defer src="script.js?v=v-checklist-3"></script>
+  <!-- App (JS sin cambios) -->
+  <script defer src="script.js?v=v-flat-light-swipe-1"></script>
 </body>
 </html>

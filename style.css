@@ -1,4 +1,3 @@
-
 :root{
   --bg: #0f1115;
   --card: #171a21;
@@ -73,10 +72,10 @@ body {
 .calendar-days .empty::before, .calendar-days .empty::after { display: none; }
 
 /* Fondo por turno */
-.turno-manana { background: color-mix(in oklab, var(--turno-manana) 60%, #000 40%); }
-.turno-tarde  { background: color-mix(in oklab, var(--turno-tarde) 60%,  #000 40%); }
-.turno-libre  { background: color-mix(in oklab, var(--turno-libre) 65%,  #000 35%); }
-.turno-festivo{ background: color-mix(in oklab, var(--turno-festivo) 65%,#000 35%); color:#ffd7d7; font-weight:800; }
+.turno-manana { background: #233a52; }
+.turno-tarde  { background: #4a3822; }
+.turno-libre  { background: #1f3a22; }
+.turno-festivo{ background: #3b2121; color:#ffd7d7; font-weight:800; }
 .no-click { cursor: not-allowed; }
 
 /* Número del día + letra grande */

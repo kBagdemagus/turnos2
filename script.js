@@ -3,7 +3,7 @@
 /* =========================
    Firebase Config + Init
 ========================= */
-console.log("[turnos] v-mobile-letters-2"); // ← para verificar en consola que es el JS nuevo
+console.log("[turnos] v-checklist-3");
 
 const firebaseConfig = {
   apiKey: "AIzaSyCsxoAqOfBalegYyd7QUWwaU3C3uZRZc9c",
@@ -70,10 +70,10 @@ const festivos2025 = new Set([
   "2025-12-06", "2025-12-08", "2025-12-25"
 ]);
 
-// Usuario simple (puedes integrar Auth más adelante)
+// Identidad simple (puedes integrar Auth más adelante)
 const userId = "usuario_default";
 
-// Estado de trabajador actual y turnos editados
+// Trabajador activo y sus turnos editados
 let currentWorkerId = localStorage.getItem("currentWorkerId") || "trabajador1";
 let editedTurnos = {};
 let selectedDateStr = "";
@@ -87,10 +87,8 @@ function diffDaysUTC(a, b) {
   const utcB = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
   return Math.floor((utcA - utcB) / 86400000);
 }
-// Módulo positivo
 const mod = (n, m) => ((n % m) + m) % m;
 
-// Fecha local YYYY-MM-DD
 function formatLocalDate(d) {
   const y = d.getFullYear();
   const m = String(d.getMonth() + 1).padStart(2, "0");
@@ -98,7 +96,6 @@ function formatLocalDate(d) {
   return `${y}-${m}-${day}`;
 }
 
-// Normaliza posibles valores antiguos
 function normalizeTurno(v) {
   if (v === "morning") return "mañana";
   if (v === "evening") return "tarde";
@@ -106,7 +103,6 @@ function normalizeTurno(v) {
   return v;
 }
 
-// Clase CSS desde turno
 function classFromTurno(turno) {
   switch (turno) {
     case "mañana": return "turno-manana";
@@ -117,7 +113,6 @@ function classFromTurno(turno) {
   }
 }
 
-// Letra a mostrar
 function letterFromTurno(turno) {
   switch (turno) {
     case "mañana": return "M";
@@ -210,14 +205,14 @@ function generateCalendar(date) {
   const todayStr = formatLocalDate(new Date());
   const startCycleDate = getStartCycleDate();
 
-  // Relleno inicial
+  // Relleno inicial (antes del 1)
   for (let i = 0; i < startWeekday; i++) {
     const emptyDiv = document.createElement("div");
     emptyDiv.className = "empty";
     calendarDays.appendChild(emptyDiv);
   }
 
-  // Días
+  // Días del mes
   for (let day = 1; day <= totalDays; day++) {
     const cell = document.createElement("div");
     const thisDate = new Date(year, month, day);
@@ -261,7 +256,7 @@ function generateCalendar(date) {
     calendarDays.appendChild(cell);
   }
 
-  // Relleno final
+  // Relleno final (tras el último día)
   const cellsSoFar = startWeekday + totalDays;
   const trailing = (7 - (cellsSoFar % 7)) % 7;
   for (let i = 0; i < trailing; i++) {

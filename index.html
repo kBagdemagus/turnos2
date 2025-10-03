@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Turnos · Equipo</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=mtlf-2" />
 </head>
 <body>
   <div class="calendar-container">
@@ -42,12 +42,11 @@
     </div>
   </div>
 
-  <!-- Modal para edición de turnos -->
+  <!-- Modal edición -->
   <div id="turnoModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-content">
       <h3 id="modalTitle">Editar Turno</h3>
       <p id="modalDate" class="modal-date"></p>
-      <!-- Mostramos letras pero valores canónicos para no romper persistencia -->
       <label class="select-label" for="turnoSelect">Turno</label>
       <select id="turnoSelect" class="turno-select">
         <option value="mañana">M</option>
@@ -66,6 +65,6 @@
   <script defer src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
   <!-- App -->
-  <script defer src="script.js"></script>
+  <script defer src="script.js?v=mtlf-2"></script>
 </body>
 </html>

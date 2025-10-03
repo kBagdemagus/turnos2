@@ -47,7 +47,7 @@ const workers = {
   trabajador4: { name: "Trabajador 4", start: new Date(2025,  9, 27) }  // 27 oct 2025
 };
 
-// Ciclo 4 semanas (L-D) con nombres en ES
+// Ciclo 4 semanas (L-D) con nombres canónicos ES
 const weekPatterns = [
   { days: ["mañana","mañana","mañana","mañana","mañana","libre","libre"] }, // Semana 1
   { days: ["mañana","mañana","mañana","mañana","mañana","libre","libre"] }, // Semana 2
@@ -115,6 +115,17 @@ function classFromTurno(turno) {
   }
 }
 
+// Letra a mostrar (M/T/L/F)
+function letterFromTurno(turno) {
+  switch (turno) {
+    case "mañana": return "M";
+    case "tarde":  return "T";
+    case "libre":  return "L";
+    case "festivo":return "F";
+    default:       return "?";
+  }
+}
+
 function setStatus(type, text) {
   syncStatusEl.className = "status";
   if (type === "connected")    syncStatusEl.classList.add("status-connected");
@@ -157,7 +168,7 @@ async function loadTurnosFromFirestore() {
     setStatus("connected", "conectado");
     setMsg(`Documento creado para ${workers[currentWorkerId].name}.`);
   } catch (err) {
-    console.error("[Firestore] Error al cargar:", err);
+    console.error("[Firestore] Error al cargar]:", err);
     setStatus("error", "error");
     setMsg("No se pudo leer Firestore. Revisa reglas/servidor.");
   }
@@ -195,22 +206,20 @@ function generateCalendar(date) {
   const lastDay  = new Date(year, month + 1, 0);
   const startWeekday = (firstDay.getDay() + 6) % 7; // Lunes=0
 
+  // Hoy (clave local) para resaltar suavemente
+  const todayStr = formatLocalDate(new Date());
+
   for (let i = 0; i < startWeekday; i++) {
     const emptyDiv = document.createElement("div");
+    emptyDiv.className = "empty";
     calendarDays.appendChild(emptyDiv);
   }
 
   const startCycleDate = getStartCycleDate();
 
-  // Hoy (clave local) para resaltar suavemente
-  const today = new Date();
-  const todayStr = formatLocalDate(today);
-
   for (let day = 1; day <= lastDay.getDate(); day++) {
     const cell = document.createElement("div");
     const thisDate = new Date(year, month, day);
-
-    // Clave de fecha en LOCAL (evita desfases)
     const dateStr  = formatLocalDate(thisDate);
 
     // Días desde el inicio (UTC, DST-safe) y semana del ciclo (bidireccional)
@@ -232,20 +241,25 @@ function generateCalendar(date) {
       turno = pattern.days[weekday];
     }
 
-    cell.className = "";
-    cell.classList.add(classFromTurno(turno));
+    cell.className = classFromTurno(turno);
+    if (dateStr === todayStr) cell.classList.add("is-today");
+    if (!clickable) cell.classList.add("no-click");
 
-    // 🔹 Oscurecer sutilmente el día de hoy
-    if (dateStr === todayStr) {
-      cell.classList.add("is-today");
-    }
+    // Contenido compacto: número de día + letra grande
+    const dayNumber = document.createElement("div");
+    dayNumber.className = "day-number";
+    dayNumber.textContent = String(day);
 
-    cell.innerHTML = `<strong>${day}</strong><div class="turno-label">${turno}</div>`;
+    const letter = document.createElement("div");
+    letter.className = "turno-letter";
+    letter.textContent = letterFromTurno(turno);
+    letter.title = turno; // accesibilidad: muestra texto completo al mantener pulsado
+
+    cell.appendChild(dayNumber);
+    cell.appendChild(letter);
 
     if (clickable) {
       cell.addEventListener("click", () => openModal(dateStr, turno));
-    } else {
-      cell.classList.add("no-click");
     }
 
     calendarDays.appendChild(cell);
@@ -257,14 +271,15 @@ function generateCalendar(date) {
 ========================= */
 function openModal(dateStr, currentTurno) {
   selectedDateStr = dateStr;
-  document.getElementById("modalDate").innerText = `Editar turno para ${dateStr}`;
-  document.getElementById("turnoSelect").value = currentTurno;
+  document.getElementById("modalDate").innerText = `Día: ${dateStr}`;
+  document.getElementById("turnoSelect").value = currentTurno; // valores canónicos
   document.getElementById("turnoModal").classList.remove("hidden");
 }
 function closeModal() {
   document.getElementById("turnoModal").classList.add("hidden");
 }
 async function saveTurno() {
+  if (!selectedDateStr) return;
   if (isFestivo(selectedDateStr)) { closeModal(); return; }
   const newTurno = normalizeTurno(document.getElementById("turnoSelect").value);
   editedTurnos[selectedDateStr] = newTurno;
@@ -334,7 +349,9 @@ async function setCurrentWorker(id) {
   localStorage.setItem("currentWorkerId", currentWorkerId);
 
   workerTabs.forEach(btn => {
-    btn.classList.toggle("active", btn.dataset.id === currentWorkerId);
+    const active = btn.dataset.id === currentWorkerId;
+    btn.classList.toggle("active", active);
+    btn.setAttribute("aria-selected", String(active));
   });
 
   editedTurnos = JSON.parse(localStorage.getItem(`turnosGuardados_${currentWorkerId}`) || "{}");
@@ -367,7 +384,11 @@ cancelTurnoBtn.addEventListener("click", closeModal);
 (async () => {
   try {
     setStatus("saving", "iniciando…");
-    workerTabs.forEach(btn => btn.classList.toggle("active", btn.dataset.id === currentWorkerId));
+    workerTabs.forEach(btn => {
+      const active = btn.dataset.id === currentWorkerId;
+      btn.classList.toggle("active", active);
+      btn.setAttribute("aria-selected", String(active));
+    });
     editedTurnos = JSON.parse(localStorage.getItem(`turnosGuardados_${currentWorkerId}`) || "{}");
     await loadTurnosFromFirestore();
   } finally {

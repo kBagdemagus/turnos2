@@ -2,8 +2,8 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mi Turnero Laboral</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Turnos · Equipo</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -14,47 +14,50 @@
     </div>
 
     <!-- Pestañas de trabajadores -->
-    <div class="worker-tabs">
-      <button class="worker-tab" data-id="trabajador1">Trabajador 1</button>
-      <button class="worker-tab" data-id="trabajador2">Trabajador 2</button>
-      <button class="worker-tab" data-id="trabajador3">Trabajador 3</button>
-      <button class="worker-tab" data-id="trabajador4">Trabajador 4</button>
+    <div class="worker-tabs" role="tablist" aria-label="Trabajadores">
+      <button class="worker-tab" data-id="trabajador1" role="tab" aria-selected="true">Trab. 1</button>
+      <button class="worker-tab" data-id="trabajador2" role="tab" aria-selected="false">Trab. 2</button>
+      <button class="worker-tab" data-id="trabajador3" role="tab" aria-selected="false">Trab. 3</button>
+      <button class="worker-tab" data-id="trabajador4" role="tab" aria-selected="false">Trab. 4</button>
     </div>
 
     <div class="header">
-      <button id="prevMonth">←</button>
-      <h2 id="monthYear"></h2>
-      <button id="nextMonth">→</button>
-    </div>
-
-    <div class="backup-buttons">
-      <button id="exportBtn">📤 Guardar Turnos</button>
-      <input type="file" id="importFile" accept=".json" style="display:none">
-      <button id="importBtn">📥 Cargar Turnos</button>
-      <button id="resetBtn">🗑️ Resetear Turnos</button>
+      <button id="prevMonth" class="nav-btn" aria-label="Mes anterior">←</button>
+      <h2 id="monthYear" class="month-title" aria-live="polite"></h2>
+      <button id="nextMonth" class="nav-btn" aria-label="Mes siguiente">→</button>
     </div>
 
     <div class="calendar">
       <div class="day-names">
-        <div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div><div>Dom</div>
+        <div>L</div><div>M</div><div>X</div><div>J</div><div>V</div><div>S</div><div>D</div>
       </div>
-      <div id="calendarDays" class="calendar-days"></div>
+      <div id="calendarDays" class="calendar-days" aria-label="Calendario mensual"></div>
+    </div>
+
+    <div class="tools">
+      <button id="exportBtn" class="tool-btn">📤 Exportar</button>
+      <input type="file" id="importFile" accept=".json" style="display:none">
+      <button id="importBtn" class="tool-btn">📥 Importar</button>
+      <button id="resetBtn" class="tool-btn danger">🗑️ Resetear</button>
     </div>
   </div>
 
   <!-- Modal para edición de turnos -->
-  <div id="turnoModal" class="modal hidden">
+  <div id="turnoModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-content">
-      <h3>Editar Turno</h3>
-      <p id="modalDate"></p>
-      <select id="turnoSelect">
-        <option value="mañana">Mañana</option>
-        <option value="tarde">Tarde</option>
-        <option value="libre">Libre</option>
+      <h3 id="modalTitle">Editar Turno</h3>
+      <p id="modalDate" class="modal-date"></p>
+      <!-- Mostramos letras pero valores canónicos para no romper persistencia -->
+      <label class="select-label" for="turnoSelect">Turno</label>
+      <select id="turnoSelect" class="turno-select">
+        <option value="mañana">M</option>
+        <option value="tarde">T</option>
+        <option value="libre">L</option>
       </select>
-      <br /><br />
-      <button id="saveTurnoBtn">Guardar</button>
-      <button id="cancelTurnoBtn">Cancelar</button>
+      <div class="modal-actions">
+        <button id="saveTurnoBtn" class="primary">Guardar</button>
+        <button id="cancelTurnoBtn" class="secondary">Cancelar</button>
+      </div>
     </div>
   </div>
 

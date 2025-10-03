@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi Turnero Laboral</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="calendar-container">
+    <div class="topbar">
+      <div id="syncStatus" class="status status-disconnected">Estado: desconectado</div>
+      <div id="lastMessage" class="status-msg"></div>
+    </div>
+
+    <!-- Pestañas de trabajadores -->
+    <div class="worker-tabs">
+      <button class="worker-tab" data-id="trabajador1">Trabajador 1</button>
+      <button class="worker-tab" data-id="trabajador2">Trabajador 2</button>
+      <button class="worker-tab" data-id="trabajador3">Trabajador 3</button>
+      <button class="worker-tab" data-id="trabajador4">Trabajador 4</button>
+    </div>
+
+    <div class="header">
+      <button id="prevMonth">←</button>
+      <h2 id="monthYear"></h2>
+      <button id="nextMonth">→</button>
+    </div>
+
+    <div class="backup-buttons">
+      <button id="exportBtn">📤 Guardar Turnos</button>
+      <input type="file" id="importFile" accept=".json" style="display:none">
+      <button id="importBtn">📥 Cargar Turnos</button>
+      <button id="resetBtn">🗑️ Resetear Turnos</button>
+    </div>
+
+    <div class="calendar">
+      <div class="day-names">
+        <div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div><div>Dom</div>
+      </div>
+      <div id="calendarDays" class="calendar-days"></div>
+    </div>
+  </div>
+
+  <!-- Modal para edición de turnos -->
+  <div id="turnoModal" class="modal hidden">
+    <div class="modal-content">
+      <h3>Editar Turno</h3>
+      <p id="modalDate"></p>
+      <select id="turnoSelect">
+        <option value="mañana">Mañana</option>
+        <option value="tarde">Tarde</option>
+        <option value="libre">Libre</option>
+      </select>
+      <br /><br />
+      <button id="saveTurnoBtn">Guardar</button>
+      <button id="cancelTurnoBtn">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- Firebase SDKs (compat) -->
+  <script defer src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+
+  <!-- App -->
+  <script defer src="script.js"></script>
+</body>
+</html>

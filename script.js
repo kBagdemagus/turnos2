@@ -3,7 +3,7 @@
 /* =========================
    Firebase Config + Init
 ========================= */
-console.log("[turnos] v-checklist-3");
+console.log("[turnos] v-flat-light-swipe-1");
 
 const firebaseConfig = {
   apiKey: "AIzaSyCsxoAqOfBalegYyd7QUWwaU3C3uZRZc9c",
@@ -28,6 +28,7 @@ const nextMonthBtn   = document.getElementById("nextMonth");
 const syncStatusEl   = document.getElementById("syncStatus");
 const lastMessageEl  = document.getElementById("lastMessage");
 const workerTabs     = document.querySelectorAll(".worker-tab");
+const calendarEl     = document.querySelector(".calendar");
 
 const exportBtn      = document.getElementById("exportBtn");
 const importBtn      = document.getElementById("importBtn");
@@ -89,6 +90,7 @@ function diffDaysUTC(a, b) {
 }
 const mod = (n, m) => ((n % m) + m) % m;
 
+// Fecha local YYYY-MM-DD
 function formatLocalDate(d) {
   const y = d.getFullYear();
   const m = String(d.getMonth() + 1).padStart(2, "0");
@@ -96,6 +98,7 @@ function formatLocalDate(d) {
   return `${y}-${m}-${day}`;
 }
 
+// Normaliza posibles valores antiguos
 function normalizeTurno(v) {
   if (v === "morning") return "mañana";
   if (v === "evening") return "tarde";
@@ -103,6 +106,7 @@ function normalizeTurno(v) {
   return v;
 }
 
+// Clase CSS desde turno
 function classFromTurno(turno) {
   switch (turno) {
     case "mañana": return "turno-manana";
@@ -113,6 +117,7 @@ function classFromTurno(turno) {
   }
 }
 
+// Letra a mostrar
 function letterFromTurno(turno) {
   switch (turno) {
     case "mañana": return "M";
@@ -205,7 +210,7 @@ function generateCalendar(date) {
   const todayStr = formatLocalDate(new Date());
   const startCycleDate = getStartCycleDate();
 
-  // Relleno inicial (antes del 1)
+  // Relleno inicial (antes del día 1)
   for (let i = 0; i < startWeekday; i++) {
     const emptyDiv = document.createElement("div");
     emptyDiv.className = "empty";
@@ -239,7 +244,7 @@ function generateCalendar(date) {
     if (dateStr === todayStr) cell.classList.add("is-today");
     if (!clickable) cell.classList.add("no-click");
 
-    // Número + letra (M/T/L/F)
+    // Contenido: número + letra (M/T/L/F)
     const num = document.createElement("div");
     num.className = "day-number";
     num.textContent = String(day);
@@ -356,6 +361,57 @@ async function setCurrentWorker(id) {
   await loadTurnosFromFirestore();
   generateCalendar(currentDate);
 }
+
+/* =========================
+   Navegación por gestos (swipe) en móvil
+========================= */
+let touchStartX = 0, touchStartY = 0, didSwipe = false;
+
+function onTouchStart(e){
+  const t = e.changedTouches[0];
+  touchStartX = t.clientX;
+  touchStartY = t.clientY;
+  didSwipe = false;
+}
+function onTouchMove(e){
+  // No hacemos nada aquí; solo medimos al final
+}
+function onTouchEnd(e){
+  const t = e.changedTouches[0];
+  const dx = t.clientX - touchStartX;
+  const dy = t.clientY - touchStartY;
+
+  const absDx = Math.abs(dx);
+  const absDy = Math.abs(dy);
+
+  // Umbral y “predominio” horizontal
+  if (absDx > 50 && absDx > absDy * 1.4) {
+    if (dx < 0) {
+      // Izquierda → mes siguiente
+      currentDate.setMonth(currentDate.getMonth() + 1);
+    } else {
+      // Derecha → mes anterior
+      currentDate.setMonth(currentDate.getMonth() - 1);
+    }
+    generateCalendar(currentDate);
+    didSwipe = true;
+  }
+}
+
+// Evita "click fantasma" tras swipe
+function cancelClickAfterSwipe(e){
+  if (didSwipe) {
+    e.stopPropagation();
+    e.preventDefault();
+    didSwipe = false;
+  }
+}
+
+calendarEl.addEventListener("touchstart", onTouchStart, { passive: true });
+calendarEl.addEventListener("touchmove",  onTouchMove,  { passive: true });
+calendarEl.addEventListener("touchend",   onTouchEnd,   { passive: true });
+// Capturamos click en fase de captura para frenarlo si hubo swipe
+window.addEventListener("click", cancelClickAfterSwipe, true);
 
 /* =========================
    Eventos UI

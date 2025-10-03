@@ -1,0 +1,144 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f0f0f0;
+  padding: 20px;
+  text-align: center;
+}
+
+.calendar-container {
+  background: white;
+  max-width: 720px;
+  margin: auto;
+  padding: 10px 12px 16px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.status {
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid #ddd;
+}
+.status-connected { background: #e8fff0; color: #19733d; border-color: #bfe8cf; }
+.status-saving { background: #fff9e6; color: #8a5b00; border-color: #ffe2a8; }
+.status-error { background: #ffeaea; color: #a61d1d; border-color: #ffc9c9; }
+.status-disconnected { background: #f2f2f2; color: #555; }
+
+.status-msg {
+  font-size: 0.85rem;
+  color: #555;
+  min-height: 1.2em;
+}
+
+/* Tabs de trabajadores */
+.worker-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.worker-tab {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  background: #fafafa;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.worker-tab.active {
+  background: #e8f0ff;
+  border-color: #b5ccff;
+  color: #123;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.calendar {
+  margin-top: 10px;
+}
+
+.day-names, .calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.day-names div, .calendar-days div {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.calendar-days div {
+  height: 80px;
+  position: relative;
+  cursor: pointer;
+}
+
+.turno-manana { background: #d0f0ff; }
+.turno-tarde  { background: #ffe0b3; }
+.turno-libre  { background: #e0ffe0; }
+
+/* Festivo en rojizo */
+.turno-festivo {
+  background: #ffd6d6;
+  color: #8a1f1f;
+  font-weight: 600;
+}
+.no-click { cursor: not-allowed; }
+
+.turno-label {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  font-size: 0.7em;
+  font-weight: bold;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+.modal.hidden { display: none; }
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.backup-buttons {
+  margin: 10px 0;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ===== NUEVO: destacar suavemente el día de hoy ===== */
+.is-today {
+  filter: brightness(0.88) contrast(1.05);
+}

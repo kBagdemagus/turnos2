@@ -10,16 +10,16 @@
 <body>
   <div class="calendar-container">
     <div class="topbar">
-      <div id="syncStatus" class="status status-disconnected">Estado: desconectado</div>
-      <div id="lastMessage" class="status-msg"></div>
+      <div id="syncStatus" class="status status-disconnected" style="display:none">Estado: desconectado</div>
+      <div id="lastMessage" class="status-msg" style="display:none"></div>
     </div>
 
     <!-- Pestañas de trabajadores (centradas y espaciadas) -->
     <div class="worker-tabs" role="tablist" aria-label="Trabajadores">
-      <button class="worker-tab" data-id="trabajador1" role="tab" aria-selected="true">Trab. 1</button>
-      <button class="worker-tab" data-id="trabajador2" role="tab" aria-selected="false">Trab. 2</button>
-      <button class="worker-tab" data-id="trabajador3" role="tab" aria-selected="false">Trab. 3</button>
-      <button class="worker-tab" data-id="trabajador4" role="tab" aria-selected="false">Trab. 4</button>
+      <button class="worker-tab" data-id="trabajador1" role="tab" aria-selected="true">Josemi</button>
+      <button class="worker-tab" data-id="trabajador2" role="tab" aria-selected="false">Vicky</button>
+      <button class="worker-tab" data-id="trabajador3" role="tab" aria-selected="false">Sonia</button>
+      <button class="worker-tab" data-id="trabajador4" role="tab" aria-selected="false">Maria</button>
     </div>
 
     <div class="header">
@@ -36,10 +36,10 @@
     </div>
 
     <div class="tools">
-      <button id="exportBtn" class="tool-btn">Exportar</button>
+      <button id="exportBtn" class="tool-btn" style="display:none">Exportar</button>
       <input type="file" id="importFile" accept=".json" style="display:none">
-      <button id="importBtn" class="tool-btn">Importar</button>
-      <button id="resetBtn" class="tool-btn danger">Resetear</button>
+      <button id="importBtn" class="tool-btn" style="display:none">Importar</button>
+      <button id="resetBtn" class="tool-btn danger" style="display:none">Resetear</button>
     </div>
   </div>
 

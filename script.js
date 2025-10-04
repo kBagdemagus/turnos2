@@ -44,10 +44,16 @@ let currentDate = new Date();
 
 // Fechas de inicio por trabajador
 const workers = {
-  trabajador1: { name: "Trabajador 1", start: new Date(2024, 11,  2) }, // 2 dic 2024
+/*   trabajador1: { name: "Trabajador 1", start: new Date(2024, 11,  2) }, // 2 dic 2024
   trabajador2: { name: "Trabajador 2", start: new Date(2025,  9, 13) }, // 13 oct 2025
   trabajador3: { name: "Trabajador 3", start: new Date(2025,  9, 20) }, // 20 oct 2025
-  trabajador4: { name: "Trabajador 4", start: new Date(2025,  9, 27) }  // 27 oct 2025
+  trabajador4: { name: "Trabajador 4", start: new Date(2025,  9, 27) }  // 27 oct 2025 */
+  
+  trabajador1: { name: "Josemi", start: new Date(2024, 11,  2) }, // 2 dic 2024
+  trabajador2: { name: "Vicky", start: new Date(2025,  9, 13) }, // 13 oct 2025
+  trabajador3: { name: "Sonia", start: new Date(2025,  9, 20) }, // 20 oct 2025
+  trabajador4: { name: "Maria", start: new Date(2025,  9, 27) }  // 27 oct 2025
+  
 };
 
 // Ciclo 4 semanas (L-D)
@@ -201,7 +207,8 @@ function generateCalendar(date) {
   const year  = date.getFullYear();
   const month = date.getMonth();
   // monthYear.innerText = `${workers[currentWorkerId].name} · ${date.toLocaleString("es-ES", { month: "long", year: "numeric" })}`;
-  monthYear.innerText = `${date.toLocaleString("es-ES", { month: "long", year: "numeric" })}`;
+  monthYear.innerText = `${date.toLocaleString("es-ES", { month: "long", year: "numeric" })}`; 
+ 
   const firstDay = new Date(year, month, 1);
   const lastDay  = new Date(year, month + 1, 0);
   const startWeekday = (firstDay.getDay() + 6) % 7; // Lunes=0

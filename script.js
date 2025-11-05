@@ -52,7 +52,7 @@ const workers = {
   trabajador1: { name: "Josemi", start: new Date(2024, 11,  2) }, // 2 dic 2024
   trabajador2: { name: "Pilar", start: new Date(2025,  9, 13) }, // 13 oct 2025
   trabajador3: { name: "David", start: new Date(2025,  9, 20) }, // 20 oct 2025
-  trabajador4: { name: "Alfonso", start: new Date(2025,  9, 27) }  // 27 oct 2025
+  trabajador4: { name: "Irene", start: new Date(2025,  9, 27) }  // 27 oct 2025
   
 };
 
